@@ -72,20 +72,23 @@ class label_operator():
 
             xml_name = self.anno_path + '/' + file + '.xml'
 
-            # if os.path.exists(xml_name):
-            f = open(xml_name, "r", encoding="utf-8")
-            _str1 = f.read()
+            if os.path.exists(xml_name):
+                pr = PR(xml_name)
+                shapes = pr.getShapes()
+                #
+                label_list = [s[0] for s in shapes]
+            else:
+                print('file not exist')
             # else:
             #     lis.remove(file)
             #     continue
 
             for k in self.label_count.keys():
-                if k in _str1:
+                if k in label_list:
                     try:
                         img_count[k] += 1
                     except:
                         img_count[k] = 1
-            f.close()
 
         return img_count, lis
 
